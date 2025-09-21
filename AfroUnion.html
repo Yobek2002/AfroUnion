@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AfroUnion - Global Money Transfers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c5f2d;
+            --secondary: #004e89;
+            --accent: #ffbe0b;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --gray: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .rtl {
+            direction: rtl;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            margin-left: 10px;
+        }
+        
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: var(--accent);
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-btn:hover, .lang-btn.active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            margin-left: 15px;
+        }
+        
+        .auth-btn {
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-btn:hover {
+            background: white;
+            color: var(--primary);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow: auto;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s;
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .modal-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .modal-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .modal-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            text-align: center;
+            flex: 1;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .modal-tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+        
+        .remember-me input {
+            margin-right: 8px;
+        }
+        
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .modal-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-btn:hover {
+            background-color: #245a25;
+        }
+        
+        .social-login {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .social-divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .social-divider::before,
+        .social-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: #ddd;
+        }
+        
+        .social-divider span {
+            padding: 0 15px;
+            color: var(--gray);
+        }
+        
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .facebook {
+            background-color: #3b5998;
+        }
+        
+        .google {
+            background-color: #db4437;
+        }
+        
+        .twitter {
+            background-color: #1da1f2;
+        }
+        
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1605106702736-2055783800de?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--dark);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #ffcc40;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-large {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--primary);
+            font-size: 2.2rem;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--gray);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            padding: 80px 0;
+            background-color: #f9f9f9;
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
+        }
+        
+        /* Transfer Calculator */
+        .calculator {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .calc-container {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+        }
+        
+        .calc-flex {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .calc-box {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            color: var(--dark);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            font-size: 16px;
+        }
+        
+        .calc-result {
+            background-color: var(--accent);
+            color: var(--dark);
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        
+        .rate-info {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Countries Section */
+        .countries {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .countries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .country-card {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .country-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .country-flag {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background: #f9f9f9;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        /* Download App */
+        .download-app {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            text-align: center;
+        }
+        
+        .app-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .app-btn {
+            display: inline-flex;
+            align-items: center;
+            background: white;
+            color: var(--dark);
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .app-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .app-btn i {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: var(--accent);
+        }
+        
+        .social-icons a {
+            color: white;
+            margin-right: 15px;
+            font-size: 20px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* User Menu */
+        .user-menu {
+            position: relative;
+            display: none;
+            margin-left: 15px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark);
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .user-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            display: none;
+            z-index: 101;
+        }
+        
+        .user-dropdown.show {
+            display: block;
+        }
+        
+        .user-dropdown a {
+            display: block;
+            padding: 12px 15px;
+            color: var(--dark);
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .user-dropdown a:hover {
+            background-color: #f5f5f5;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 20px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            nav ul li {
+                margin: 5px 10px;
+            }
+            
+            .header-actions {
+                margin-top: 20px;
+            }
+            
+            .steps {
+                flex-direction: column;
+            }
+            
+            .step {
+                margin-bottom: 30px;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .calc-flex {
+                flex-direction: column;
+            }
+            
+            .app-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+            
+            .modal-tabs {
+                flex-direction: column;
+            }
+            
+            .modal-tab {
+                margin-bottom: 10px;
+            }
+            
+            .social-buttons {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-img">AU</div>
+                    <h1>AfroUnion / الاتحاد الأفريقي</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#home">Home / الرئيسية</a></li>
+                        <li><a href="#services">Services / الخدمات</a></li>
+                        <li><a href="#countries">Countries / الدول</a></li>
+                        <li><a href="#how-it-works">How It Works / كيفية العمل</a></li>
+                        <li><a href="#calculator">Calculator / الحاسبة</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <div class="language-switcher">
+                        <button class="lang-btn active" data-lang="en">EN</button>
+                        <button class="lang-btn" data-lang="ar">AR</button>
+                    </div>
+                    <div class="auth-buttons" id="authButtons">
+                        <button class="auth-btn" id="signInBtn">Sign In / تسجيل الدخول</button>
+                        <button class="auth-btn" id="registerBtn">Register / تسجيل</button>
+                    </div>
+                    <div class="user-menu" id="userMenu">
+                        <div class="user-avatar" id="userAvatar">JD</div>
+                        <div class="user-dropdown" id="userDropdown">
+                            <a href="#"><i class="fas fa-user"></i> My Profile</a>
+                            <a href="#"><i class="fas fa-exchange-alt"></i> Transactions</a>
+                            <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                            <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Auth Modals -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2 class="modal-title" id="modalTitle">Sign In / تسجيل الدخول</h2>
+            
+            <div class="modal-tabs">
+                <div class="modal-tab active" data-tab="signin">Sign In / تسجيل الدخول</div>
+                <div class="modal-tab" data-tab="register">Register / تسجيل</div>
+            </div>
+            
+            <form id="signInForm">
+                <div class="form-group">
+                    <label for="email">Email / البريد الإلكتروني</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password / كلمة المرور</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember me / تذكرني</label>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot password? / نسيت كلمة المرور؟</a>
+                </div>
+                <button type="submit" class="modal-btn">Sign In / تسجيل الدخول</button>
+            </form>
+            
+            <form id="registerForm" class="hidden">
+                <div class="form-group">
+                    <label for="fullName">Full Name / الاسم الكامل</label>
+                    <input type="text" id="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email / البريد الإلكتروني</label>
+                    <input type="email" id="regEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password / كلمة المرور</label>
+                    <input type="password" id="regPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password / تأكيد كلمة المرور</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">I agree to the Terms & Conditions / أوافق على الشروط والأحكام</label>
+                </div>
+                <button type="submit" class="modal-btn">Register / تسجيل</button>
+            </form>
+            
+            <div class="social-login">
+                <div class="social-divider">
+                    <span>Or continue with / أو продолжить с помощью</span>
+                </div>
+                <div class="social-buttons">
+                    <div class="social-btn facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <div class="social-btn google">
+                        <i class="fab fa-google"></i>
+                    </div>
+                    <div class="social-btn twitter">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="signup-link" id="signupLink">
+                <p>Don't have an account? <a href="#" id="switchToRegister">Sign up / تسجيل</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h2>Global Money Transfers Made Simple</h2>
+            <p>Send money to over 100 countries with low fees and competitive exchange rates. Trusted by millions worldwide.</p>
+            <p class="rtl">ارتح الأموال إلى أكثر من 100 دولة برسوم منخفضة وأسعار صرف تنافسية. يثق بنا الملايين حول العالم.</p>
+            <a href="#calculator" class="btn btn-large">Send Money Now / ارسل الأموال الآن</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="services">
+        <div class="container">
+            <h2 class="section-title">Our Services / خدماتنا</h2>
+            <p class="section-subtitle">We provide fast, secure, and affordable money transfer services to individuals and businesses across the globe.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-exchange-alt"></i></div>
+                    <h3>Global Transfers / التحويلات العالمية</h3>
+                    <p>Send money to over 100 countries in 50+ currencies with competitive exchange rates.</p>
+                    <p class="rtl">أرسل الأموال إلى أكثر من 100 دولة بأكثر من 50 عملة بأسعار صرف تنافسية.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                    <h3>Cash Pickup / الاستلام النقدي</h3>
+                    <p>Recipients can collect cash from thousands of locations worldwide.</p>
+                    <p class="rtl">يمكن للمستلمين جمع النقود من آلاف المواقع حول العالم.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <h3>Mobile Wallet / المحفظة الإلكترونية</h3>
+                    <p>Transfer money directly to mobile wallets in supported countries.</p>
+                    <p class="rtl">حول الأموال مباشرة إلى المحافظ الإلكترونية في الدول المدعومة.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-briefcase"></i></div>
+                    <h3>Business Solutions / حلول الأعمال</h3>
+                    <p>Specialized services for businesses making international payments.</p>
+                    <p class="rtl">خدمات متخصصة للشركات التي تقوم بالمدفوعات الدولية.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works / كيفية العمل</h2>
+            <p class="section-subtitle">Sending money abroad has never been easier. Follow these simple steps to transfer money worldwide.</p>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Register / سجل</h3>
+                    <p>Create an account online or visit our branch. Verification is quick and easy.</p>
+                    <p class="rtl">أنشئ حسابًا عبر الإنترنت أو قم بزيارة فرعنا. التحقق سريع وسهل.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Select Destination / اختر الوجهة</h3>
+                    <p>Choose from over 100 countries and multiple delivery methods.</p>
+                    <p class="rtl">اختر من بين أكثر من 100 دولة وطرق توصيل متعددة.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Send / أرسل</h3>
+                    <p>Enter amount and recipient details. Review exchange rate and fees.</p>
+                    <p class="rtl">أدخل المبلغ وتفاصيل المستلم. راجع سعر الصرف والرسوم.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Confirm / تأكد</h3>
+                    <p>Review and confirm your transaction. Payment methods include bank transfer, debit/credit card.</p>
+                    <p class="rtl">راجع وأكد معاملتك. طرق الدفع تشمل التحويل البنكي، البطاقة الائتمانية.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="calculator" id="calculator">
+        <div class="container">
+            <h2 class="section-title">Transfer Calculator / حاسبة التحويل</h2>
+            <div class="calc-container">
+                <div class="calc-flex">
+                    <div class="calc-box">
+                        <div class="form-group">
+                            <label for="send-amount">You Send / ترسل</label>
+                            <input type="number" id="send-amount" placeholder="Enter amount" value="100" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="from-currency">From / من</label>
+                            <select id="from-currency">
+                                <option value="USD">USD - US Dollar</option>
+                                <option value="EUR">EUR - Euro</option>
+                                <option value="GBP">GBP - British Pound</option>
+                                <option value="AED">AED - UAE Dirham</option>
+                                <option value="CAD">CAD - Canadian Dollar</option>
+                                <option value="AUD">AUD - Australian Dollar</option>
+                                <option value="CNY">CNY - Chinese Yuan</option>
+                                <option value="JPY">JPY - Japanese Yen</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="calc-box">
+                        <div class="form-group">
+                            <label for="receive-amount">Recipient Gets / يحصل المستلم</label>
+                            <input type="number" id="receive-amount" placeholder="Amount" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="to-currency">To / إلى</label>
+                            <select id="to-currency">
+                                <option value="NGN">NGN - Nigerian Naira</option>
+                                <option value="GHS">GHS - Ghanaian Cedi</option>
+                                <option value="KES">KES - Kenyan Shilling</option>
+                                <option value="EGP">EGP - Egyptian Pound</option>
+                                <option value="ZAR">ZAR - South African Rand</option>
+                                <option value="MAD">MAD - Moroccan Dirham</option>
+                                <option value="XOF">XOF - CFA Franc</option>
+                                <option value="ETB">ETB - Ethiopian Birr</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="calc-result">
+                    <p>Exchange Rate: <span id="exchange-rate">1 USD = 425.00 NGN</span></p>
+                    <p>Transfer Fee: <span id="transfer-fee">$2.99</span></p>
+                    <p class="rtl">سعر الصرف: <span>1 دولار = 425.00 نaira</span></p>
+                    <p class="rtl">رسوم التحويل: <span>2.99 دولار</span></p>
+                </div>
+                
+                <div class="rate-info">
+                    <p>Exchange rates are updated every minute. Actual rate may vary.</p>
+                    <p class="rtl">يتم تحديث أسعار الصرف كل دقيقة. قد يختلف السعر الفعلي.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Countries Section -->
+    <section class="countries" id="countries">
+        <div class="container">
+            <h2 class="section-title">We Serve These Countries / نحن نخدم هذه الدول</h2>
+            <p class="section-subtitle">Send money to and from these countries with competitive rates and low fees.</p>
+            
+            <div class="countries-grid">
+                <div class="country-card">
+                    <div class="country-flag">🇳🇬</div>
+                    <h3>Nigeria</h3>
+                    <p>NGN - Naira</p>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇬🇭</div>
+                    <h3>Ghana</h3>
+                    <p>GHS - Cedi</p>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇰🇪</div>
+                    <h3>Kenya</h3>
+                    <p>KES - Shilling</p>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇪🇬</div>
+                    <h3>Egypt</h3>
+                    <p>EGP - Pound</p>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇿🇦</div>
+                    <h3>South Africa</h3>
+                    <p>ZAR - Rand</p>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇺🇸</div>
+                    <h3>United States</h3>
+                    <p>USD - Dollar</p>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇬🇧</div>
+                    <h3>United Kingdom</h3>
+                    <p>GBP - Pound</p>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇦🇪</div>
+                    <h3>UAE</h3>
+                    <p>AED - Dirham</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Customers Say / ما يقوله عملاؤنا</h2>
+            <p class="section-subtitle">Don't just take our word for it. Here's what our customers have to say about our service.</p>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "I've been using AfroUnion for over 2 years to send money to my family in Nigeria. The rates are always competitive and the transfers are completed quickly."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AO</div>
+                        <div>
+                            <h4>Adeola Okon</h4>
+                            <p>Lagos, Nigeria</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "As a student in the UK, I need to send money back home to Kenya regularly. AfroUnion has the lowest fees and the mobile app makes it so convenient."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JK</div>
+                        <div>
+                            <h4>Juma Kiprop</h4>
+                            <p>Nairobi, Kenya</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "The customer service is exceptional. When I had an issue with my transfer, they resolved it within hours. I wouldn't use any other service."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SM</div>
+                        <div>
+                            <h4>Sarah Mensah</h4>
+                            <p>Accra, Ghana</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download App Section -->
+    <section class="download-app">
+        <div class="container">
+            <h2 class="section-title">Send Money On The Go / ارسل الأموال أثناء التنقل</h2>
+            <p class="section-subtitle">Download our mobile app for iOS and Android to transfer money anytime, anywhere.</p>
+            
+            <div class="app-buttons">
+                <a href="#" class="app-btn">
+                    <i class="fab fa-apple"></i>
+                    <div>
+                        <div>Download on the</div>
+                        <div>App Store</div>
+                    </div>
+                </a>
+                
+                <a href="#" class="app-btn">
+                    <i class="fab fa-google-play"></i>
+                    <div>
+                        <div>Get it on</div>
+                        <div>Google Play</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About AfroUnion / عن الاتحاد الأفريقي</h3>
+                    <p>We are a leading money transfer service specializing in global transfers with a focus on African markets since 2010.</p>
+                    <p class="rtl">نحن خدمة رائدة في تحويل الأموال متخصصة في التحويلات العالمية مع التركيز على الأسواق الأفريقية منذ عام 2010.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links / روابط سريعة</h3>
+                    <ul>
+                        <li><a href="#home">Home / الرئيسية</a></li>
+                        <li><a href="#services">Services / الخدمات</a></li>
+                        <li><a href="#countries">Countries / الدول</a></li>
+                        <li><a href="#how-it-works">How It Works / كيفية العمل</a></li>
+                        <li><a href="#calculator">Calculator / الحاسبة</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us / اتصل بنا</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> Email: info@afrounion.com</li>
+                        <li><i class="fas fa-phone"></i> Phone: +1 (234) 567-8900</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Address: 123 Finance St, Business District</li>
+                        <li class="rtl"><i class="fas fa-envelope"></i> البريد الإلكتروني: info@afrounion.com</li>
+                        <li class="rtl"><i class="fas fa-phone"></i> الهاتف: 8900-567-234 (1+)</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us / تابعنا</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 AfroUnion / الاتحاد الأفريقي. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Authentication functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const authModal = document.getElementById('authModal');
+            const signInBtn = document.getElementById('signInBtn');
+            const registerBtn = document.getElementById('registerBtn');
+            const closeModal = document.getElementById('closeModal');
+            const modalTabs = document.querySelectorAll('.modal-tab');
+            const signInForm = document.getElementById('signInForm');
+            const registerForm = document.getElementById('registerForm');
+            const switchToRegister = document.getElementById('switchToRegister');
+            const authButtons = document.getElementById('authButtons');
+            const userMenu = document.getElementById('userMenu');
+            const userAvatar = document.getElementById('userAvatar');
+            const userDropdown = document.getElementById('userDropdown');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const modalTitle = document.getElementById('modalTitle');
+            const signupLink = document.getElementById('signupLink');
+            
+            // Check if user is logged in (in a real app, this would check localStorage or a token)
+            let isLoggedIn = false;
+            
+            // Open modal when sign in button is clicked
+            signInBtn.addEventListener('click', function() {
+                authModal.style.display = 'flex';
+                showSignInForm();
+            });
+            
+            // Open modal when register button is clicked
+            registerBtn.addEventListener('click', function() {
+                authModal.style.display = 'flex';
+                showRegisterForm();
+            });
+            
+            // Close modal when X is clicked
+            closeModal.addEventListener('click', function() {
+                authModal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside the modal content
+            window.addEventListener('click', function(event) {
+                if (event.target === authModal) {
+                    authModal.style.display = 'none';
+                }
+            });
+            
+            // Switch between sign in and register forms
+            modalTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all tabs
+                    modalTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Show the appropriate form
+                    if (tabName === 'signin') {
+                        showSignInForm();
+                    } else {
+                        showRegisterForm();
+                    }
+                });
+            });
+            
+            // Switch to register form
+            switchToRegister.addEventListener('click', function(e) {
+                e.preventDefault();
+                showRegisterForm();
+                
+                // Update tabs
+                modalTabs.forEach(tab => {
+                    if (tab.getAttribute('data-tab') === 'register') {
+                        tab.classList.add('active');
+                    } else {
+                        tab.classList.remove('active');
+                    }
+                });
+            });
+            
+            // Show sign in form
+            function showSignInForm() {
+                signInForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+                modalTitle.textContent = 'Sign In / تسجيل الدخول';
+                signupLink.innerHTML = '<p>Don\'t have an account? <a href="#" id="switchToRegister">Sign up / تسجيل</a></p>';
+                
+                // Reattach event listener
+                document.getElementById('switchToRegister').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showRegisterForm();
+                    
+                    // Update tabs
+                    modalTabs.forEach(tab => {
+                        if (tab.getAttribute('data-tab') === 'register') {
+                            tab.classList.add('active');
+                        } else {
+                            tab.classList.remove('active');
+                        }
+                    });
+                });
+            }
+            
+            // Show register form
+            function showRegisterForm() {
+                signInForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+                modalTitle.textContent = 'Register / تسجيل';
+                signupLink.innerHTML = '<p>Already have an account? <a href="#" id="switchToSignIn">Sign in / تسجيل الدخول</a></p>';
+                
+                // Reattach event listener
+                document.getElementById('switchToSignIn').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showSignInForm();
+                    
+                    // Update tabs
+                    modalTabs.forEach(tab => {
+                        if (tab.getAttribute('data-tab') === 'signin') {
+                            tab.classList.add('active');
+                        } else {
+                            tab.classList.remove('active');
+                        }
+                    });
+                });
+            }
+            
+            // Handle sign in form submission
+            signInForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                // In a real app, this would validate credentials with a server
+                if (email && password) {
+                    // Simulate successful login
+                    isLoggedIn = true;
+                    authModal.style.display = 'none';
+                    
+                    // Show user menu, hide auth buttons
+                    authButtons.style.display = 'none';
+                    userMenu.style.display = 'block';
+                    
+                    // Set user avatar initials
+                    const names = email.split('@')[0].split('.');
+                    let initials = '';
+                    if (names.length > 1) {
+                        initials = names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
+                    } else {
+                        initials = names[0].substring(0, 2).toUpperCase();
+                    }
+                    userAvatar.textContent = initials;
+                    
+                    // Show success message
+                    alert('Successfully signed in!');
+                } else {
+                    alert('Please enter both email and password.');
+                }
+            });
+            
+            // Handle register form submission
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const fullName = document.getElementById('fullName').value;
+                const email = document.getElementById('regEmail').value;
+                const password = document.getElementById('regPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                
+                // Validate form
+                if (!fullName || !email || !password || !confirmPassword) {
+                    alert('Please fill in all fields.');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match.');
+                    return;
+                }
+                
+                // In a real app, this would send data to a server
+                // Simulate successful registration
+                isLoggedIn = true;
+                authModal.style.display = 'none';
+                
+                // Show user menu, hide auth buttons
+                authButtons.style.display = 'none';
+                userMenu.style.display = 'block';
+                
+                // Set user avatar initials
+                const names = fullName.split(' ');
+                let initials = '';
+                if (names.length > 1) {
+                    initials = names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
+                } else {
+                    initials = names[0].substring(0, 2).toUpperCase();
+                }
+                userAvatar.textContent = initials;
+                
+                // Show success message
+                alert('Successfully registered and signed in!');
+            });
+            
+            // Toggle user dropdown
+            userAvatar.addEventListener('click', function() {
+                userDropdown.classList.toggle('show');
+            });
+            
+            // Close dropdown when clicking outside
+            window.addEventListener('click', function(e) {
+                if (!e.target.matches('.user-avatar') && !e.target.closest('.user-dropdown')) {
+                    if (userDropdown.classList.contains('show')) {
+                        userDropdown.classList.remove('show');
+                    }
+                }
+            });
+            
+            // Handle logout
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                isLoggedIn = false;
+                
+                // Show auth buttons, hide user menu
+                authButtons.style.display = 'flex';
+                userMenu.style.display = 'none';
+                
+                // Show success message
+                alert('Successfully logged out!');
+            });
+            
+            // Language switching functionality
+            const langButtons = document.querySelectorAll('.lang-btn');
+            
+            langButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // Remove active class from all buttons
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // In a real application, this would change the actual language
+                    // For this demo, we'll just show an alert
+                    if (lang === 'ar') {
+                        alert('Language changed to Arabic');
+                    } else {
+                        alert('Language changed to English');
+                    }
+                });
+            });
+            
+            // Enhanced calculator functionality
+            const sendAmount = document.getElementById('send-amount');
+            const receiveAmount = document.getElementById('receive-amount');
+            const fromCurrency = document.getElementById('from-currency');
+            const toCurrency = document.getElementById('to-currency');
+            const exchangeRate = document.getElementById('exchange-rate');
+            const transferFee = document.getElementById('transfer-fee');
+            
+            // Exchange rates (simplified for demo)
+            const rates = {
+                USD: { NGN: 785, GHS: 11.5, KES: 150, EGP: 30.8, ZAR: 18.9, MAD: 10.1, XOF: 605, ETB: 55.2 },
+                EUR: { NGN: 850, GHS: 13.2, KES: 165, EGP: 33.5, ZAR: 20.5, MAD: 11.2, XOF: 655, ETB: 60.1 },
+                GBP: { NGN: 980, GHS: 15.1, KES: 190, EGP: 38.7, ZAR: 23.6, MAD: 12.8, XOF: 755, ETB: 69.3 },
+                AED: { NGN: 214, GHS: 3.1, KES: 41, EGP: 8.4, ZAR: 5.1, MAD: 2.8, XOF: 165, ETB: 15.0 },
+                CAD: { NGN: 580, GHS: 8.5, KES: 110, EGP: 22.5, ZAR: 13.7, MAD: 7.4, XOF: 445, ETB: 40.7 },
+                AUD: { NGN: 510, GHS: 7.4, KES: 96, EGP: 19.7, ZAR: 12.0, MAD: 6.5, XOF: 390, ETB: 35.7 },
+                CNY: { NGN: 108, GHS: 1.6, KES: 20, EGP: 4.1, ZAR: 2.5, MAD: 1.4, XOF: 83, ETB: 7.6 },
+                JPY: { NGN: 5.3, GHS: 0.077, KES: 1.0, EGP: 0.20, ZAR: 0.12, MAD: 0.066, XOF: 4.0, ETB: 0.37 }
+            };
+            
+            // Fees based on amount
+            function getFee(amount) {
+                if (amount <= 100) return 1.99;
+                if (amount <= 500) return 3.99;
+                if (amount <= 1000) return 5.99;
+                return 7.99;
+            }
+            
+            function calculate() {
+                const amount = parseFloat(sendAmount.value);
+                const from = fromCurrency.value;
+                const to = toCurrency.value;
+                
+                if (isNaN(amount) || amount <= 0) {
+                    receiveAmount.value = '0';
+                    return;
+                }
+                
+                const rate = rates[from][to];
+                const fee = getFee(amount);
+                const result = (amount - fee) * rate;
+                
+                receiveAmount.value = result.toLocaleString(undefined, {maximumFractionDigits: 2});
+                exchangeRate.textContent = `1 ${from} = ${rate.toLocaleString()} ${to}`;
+                transferFee.textContent = `$${fee.toFixed(2)}`;
+            }
+            
+            sendAmount.addEventListener('input', calculate);
+            fromCurrency.addEventListener('change', calculate);
+            toCurrency.addEventListener('change', calculate);
+            
+            // Initialize calculation
+            calculate();
+        });
+    </script>
+</body>
+</html>
